@@ -1,0 +1,4 @@
+com\calc\MyWebinitializer.class
+com\calc\CalcController.class
+com\calc\service\CalcService.class
+com\calc\CalcConfig.class
