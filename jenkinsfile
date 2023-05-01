@@ -1,32 +1,24 @@
 pipeline {
   agent any
-  
   environment {
-    AWS_REGION            = 'ap-south-1'
-    S3_BUCKET_NAME        = 'jenkinsartifacts23'
+    S3_BUCKET = "jenkinsartifacts23"
+    AWS_REGION = "ap-south-1"
+    AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
   }
-  
   stages {
     stage('Build') {
       steps {
-        sh 'mvn --version'
-        sh 'mvn clean package'
-        
-      }
-      post {
-        success {
-          archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
-        }
+        sh 'mvn clean install'
       }
     }
-    
-    stage('Deploy') {
+    stage('Publish to S3') {
       steps {
-       
-          //sh "aws s3 cp target/calc.war s3://${env.S3_BUCKET_NAME}/"
-             sh "aws s3 cp target/calc.war s3://${S3_BUCKET_NAME}/calc.war"
+        withAWS(region: env.AWS_REGION, credentials: 'aws-credentials') {
+          s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file: 'target/*.war', bucket: env.S3_BUCKET, acl: 'private')
         }
-      
+      }
     }
   }
 }
+
