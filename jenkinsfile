@@ -23,7 +23,8 @@ pipeline {
     stage('Deploy') {
       steps {
        
-          sh "aws s3 cp target/calc.war s3://${env.S3_BUCKET_NAME}/"
+          //sh "aws s3 cp target/calc.war s3://${env.S3_BUCKET_NAME}/"
+             sh "aws s3 cp target/calc.war s3://${S3_BUCKET_NAME}/calc.war"
         }
       
     }
