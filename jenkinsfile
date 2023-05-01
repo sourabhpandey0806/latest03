@@ -22,11 +22,11 @@ pipeline {
     
     stage('Upload to AWS') {
               steps {
-                  withAWS(region:'ap-south-1',credentials:'credentials') {
-                  sh 'echo "Uploading content with AWS creds"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'target/calc.war', bucket:'jenkinsartifacts23')
+                  script{
+                      s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'jenkinsartifacts23', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: false, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: '*/target/calc.war', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'SUCCESS', profileName: 'publishs3', userMetadata: []
+                       }
                   }
               }
-         }
+         
   }
 }
