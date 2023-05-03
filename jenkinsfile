@@ -16,6 +16,7 @@ pipeline {
       post {
         success {
           archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+          echo "AWS Access Key ID: ${AWS_ACCESS_KEY_ID}"
         }
       }
     }
