@@ -2,6 +2,8 @@ pipeline {
   agent any
   
   environment {
+        AWS_ACCESS_KEY_ID = credentials('my-aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('my-aws-secret-access-key')
     AWS_REGION            = 'ap-south-1'
     S3_BUCKET_NAME        = 'jenkinsartifacts23'
   }
